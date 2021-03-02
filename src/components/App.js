@@ -7,9 +7,17 @@ class Timer extends React.Component {
     this.updateTime = this.updateTime.bind(this);
     this.timer = this.timer.bind(this);
   }
+  getSeconds(time){
+    return `0${time%60}`.slice(-2);
+  }
+
+  getMinutes(time){
+    return Math.floor(time/60);
+  }
   componentDidMount() {
     const keyListener = document.addEventListener("keydown",(event)=>{
       // console.log(event.keyCode);
+      if(!this.state.completed){
       switch(event.keyCode){
         case 37:
           this.setState(state=>{
@@ -44,12 +52,14 @@ class Timer extends React.Component {
             });
             break;
       }
+    
       // console.log("yes");
       if(this.state.x===250 && this.state.y===250){
         this.setState({
           completed: true
         })
       }
+    }
     })
     }
 
@@ -79,7 +89,7 @@ timer(){
  <>
  <div className="fullPage">
    <button className="start" onClick={this.timer}>Start</button>
-   <div className="heading-timer">Seconds Passed : {this.state.time}</div>
+   <div className="heading-timer">Time Passed : {this.getMinutes(this.state.time)}:{this.getSeconds(this.state.time)}</div>
    <div className="ball" style={{
      left: this.state.x+"px",
      top: this.state.y+"px",
